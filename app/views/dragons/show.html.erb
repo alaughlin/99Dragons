@@ -30,7 +30,29 @@
   </tr>
 </table>
 
-<a href="<%= edit_dragon_url(@dragon) %>">Edit Dragon!</a>
+<h2>Requests</h2>
+<table>
+  <th align="left">Start Date</th>
+  <th align="left">End Date</th>
+  <th align="left">Status</th>
+  <% @requests.each do |request| %>
+    <tr>
+      <td><%= request.start_date %></td>
+      <td><%= request.end_date %></td>
+      <td><%= request.status %></td>
+      <% if ['PENDING'].include?(request.status)%>
+      <td>
+        <%= button_to "Approve", approve_rental_url(request), :method => :patch %>
+        <%= button_to "Deny", deny_rental_url(request), :method => :patch %>
+      </td>
+      <% end%>
+    </tr>
+  <% end %>
+</table>
 <br>
+
+<a href="<%= edit_dragon_url(@dragon) %>">Edit Dragon!</a>
+
+<%= button_to "Delete Dragon!", @dragon, :method => :delete %>
 
 <a href="<%= dragons_url %>">Back to All Dragons!</a>

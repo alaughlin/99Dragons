@@ -15,7 +15,8 @@ class Dragon < ActiveRecord::Base
   }
 
   has_many(
-    :rental_requests
+    :rental_requests,
+    :dependent => :destroy,
     :class_name => "DragonRentalRequest",
     :foreign_key => :dragon_id,
     :primary_key => :id

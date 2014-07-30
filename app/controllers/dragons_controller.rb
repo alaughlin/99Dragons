@@ -9,6 +9,7 @@ class DragonsController < ApplicationController
 
   def show
     @dragon = Dragon.find(params[:id])
+    @requests = DragonRentalRequest.where("dragon_id = ?", params[:id]).order("start_date")
 
     render :show
   end
@@ -44,6 +45,17 @@ class DragonsController < ApplicationController
     else
       @dragon.errors.full_messages
       render :edit
+    end
+  end
+
+  def destroy
+    @dragon = Dragon.find(params[:id])
+
+    if @dragon.destroy
+      redirect_to dragons_url
+    else
+      @dragon.errors.full_messages
+      redirect_to dragons_url
     end
   end
 

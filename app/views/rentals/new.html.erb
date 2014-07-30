@@ -1,0 +1,33 @@
+<h1>Request a Dragon!</h1>
+
+<form action="<%= rentals_url %>" method="post">
+  <input type="hidden"
+    name="authenticity_token"
+    value="<%= form_authenticity_token %>">
+
+  <label>
+    Choose Your Dragon!
+    <select name="rental[dragon_id]">
+      <%@dragons.each do |dragon|%>
+      <option value="<%= dragon.id %>">
+        <%= dragon.name %>
+        </option>
+      <%end%>
+     </select>
+  </label>
+  <br>
+
+  <label>
+    Start Date
+    <input type="date" name="rental[start_date]">
+  </label>
+  <br>
+
+  <label>
+    End Date
+    <input type="date" name="rental[end_date]">
+  </label>
+  <br>
+
+  <button>Request Dragon!</button>
+</form>
