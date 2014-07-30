@@ -1,0 +1,66 @@
+<% action_url = dragon.persisted? ? dragon_url(dragon) : dragons_url %>
+<% form_method = dragon.persisted? ? "put" : "post "%>
+<% submit_text = dragon.persisted? ? "Update Dragon!" : "Create Dragon!" %>
+
+<form action="<%= action_url %>" method="POST">
+  <input type="hidden" name="_method" value="<%= form_method %>">
+
+  <input type="hidden"
+    name="authenticity_token"
+    value="<%= form_authenticity_token %>">
+
+  <label>
+    Name
+    <input type="text" name="dragon[name]" value="<%= dragon.name %>">
+  </label>
+  <br>
+
+  <label>
+    Age
+    <input type="number" name="dragon[age]" value="<%= dragon.age %>">
+  </label>
+  <br>
+
+  <label>
+    Birth Date
+      <input type="date" name="dragon[birth_date]" value="<%= dragon.birth_date %>">
+  </label>
+  <br>
+
+  <label>
+    Sex
+    <% Dragon::SEX.each do |sex| %>
+      <label>
+        <%= sex %>
+        <input type="radio"
+         name="dragon[sex]"
+          value=<%= sex %>
+          <%= "checked" if dragon.sex == sex %>>
+      </label>
+    <% end%>
+  </label>
+  <br>
+
+  <label>
+    Color
+    <select name="dragon[color]">
+      <% Dragon::COLORS.each do |color| %>
+        <option value="<%= color %>"
+          <%= "selected" if @dragon.color == color %>>
+          <%= color.capitalize %>
+        </option>
+        <% end %>
+    </select>
+  </label>
+  <br>
+
+  <label>
+    Description
+    <textarea rows=5  cols=20 name="dragon[description]">
+      <%=dragon.description%>
+    </textarea>
+  </label>
+  <br>
+
+  <button><%= submit_text %></button>
+</form>

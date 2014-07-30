@@ -1,0 +1,36 @@
+<h1><%= @dragon.name %></h1>
+
+<table>
+  <th align="left">Name</th>
+  <th align="left">Age</th>
+  <th align="left">Birth Date</th>
+  <th align="left">Color</th>
+  <th align="left">Sex</th>
+  <th align="left">Description</th>
+
+  <tr>
+    <td>
+      <%= @dragon.name %>
+    </td>
+    <td>
+      <%= @dragon.age %>
+    </td>
+    <td>
+      <%= @dragon.birth_date %>
+    </td>
+    <td>
+      <%= @dragon.color %>
+    </td>
+    <td>
+      <%= @dragon.sex %>
+    </td>
+    <td>
+      <%= @dragon.description %>
+    </td>
+  </tr>
+</table>
+
+<a href="<%= edit_dragon_url(@dragon) %>">Edit Dragon!</a>
+<br>
+
+<a href="<%= dragons_url %>">Back to All Dragons!</a>

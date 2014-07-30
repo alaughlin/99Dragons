@@ -1,0 +1,10 @@
+<h1>Dragons!</h1>
+<ul>
+<% @dragons.each do |dragon| %>
+  <li>
+    <a href="<%=dragon_url(dragon)%>"><%=dragon.name%></a>
+  </li>
+  <% end %>
+</ul>
+
+<a href="<%= new_dragon_url %>">Create New Dragon!</a>
