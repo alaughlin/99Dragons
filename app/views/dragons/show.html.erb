@@ -53,6 +53,8 @@
 
 <a href="<%= edit_dragon_url(@dragon) %>">Edit Dragon!</a>
 
+<a href="<%= new_rental_url(:dragon_id => @dragon.id) %>">Rent Dragon!</a>
+
 <%= button_to "Delete Dragon!", @dragon, :method => :delete %>
 
 <a href="<%= dragons_url %>">Back to All Dragons!</a>

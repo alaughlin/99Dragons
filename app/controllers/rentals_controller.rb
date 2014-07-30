@@ -14,7 +14,7 @@ class RentalsController < ApplicationController
   end
 
   def new
-    @rental = DragonRentalRequest.new
+    @rental = DragonRentalRequest.new(dragon_id: params[:dragon_id])
     @dragons = Dragon.all
 
     render :new

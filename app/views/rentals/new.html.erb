@@ -8,8 +8,9 @@
   <label>
     Choose Your Dragon!
     <select name="rental[dragon_id]">
-      <%@dragons.each do |dragon|%>
-      <option value="<%= dragon.id %>">
+      <% @dragons.each do |dragon|%>
+      <option value="<%= dragon.id %>"
+        <%= "selected" if @rental.dragon_id == dragon.id %>>
         <%= dragon.name %>
         </option>
       <%end%>
@@ -19,13 +20,13 @@
 
   <label>
     Start Date
-    <input type="date" name="rental[start_date]">
+    <input type="date" name="rental[start_date]" value="<% @rental.start_date%>">
   </label>
   <br>
 
   <label>
     End Date
-    <input type="date" name="rental[end_date]">
+    <input type="date" name="rental[end_date]" value="<% @rental.end_date%>">
   </label>
   <br>
 
