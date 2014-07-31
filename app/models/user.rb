@@ -4,7 +4,7 @@ class User < ActiveRecord::Base
   after_initialize :reset_session_token!
 
   def reset_session_token!
-    self.session_token ||= SecureRandom.urlsafe_base64
+    self.session_token = SecureRandom.urlsafe_base64
   end
 
   def password=(password)
