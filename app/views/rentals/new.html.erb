@@ -1,3 +1,9 @@
+<% if flash[:errors] %>
+  <% flash[:errors].each do |error|%>
+    <%= error %><br />
+  <% end %>
+<% end %>
+
 <h1>Request a Dragon!</h1>
 
 <form action="<%= rentals_url %>" method="post">
@@ -32,3 +38,5 @@
 
   <button>Request Dragon!</button>
 </form>
+
+<a href="<%= dragons_url %>">Back to All Dragons!</a>

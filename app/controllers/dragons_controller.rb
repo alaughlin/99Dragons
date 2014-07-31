@@ -48,7 +48,7 @@ class DragonsController < ApplicationController
     if @dragon.update(dragon_params)
       redirect_to dragon_url(@dragon)
     else
-      @dragon.errors.full_messages
+      flash.now[:errors] = @dragon.errors.full_messages
       render :edit
     end
   end

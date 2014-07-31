@@ -31,7 +31,7 @@ class RentalsController < ApplicationController
     if @rental.save(dragon_rental_params)
       redirect_to dragon_url(@rented_dragon)
     else
-      @rental.errors.full_messages
+      flash[:errors] = @rental.errors.full_messages
       render :new
     end
   end
