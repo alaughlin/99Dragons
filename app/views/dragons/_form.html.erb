@@ -2,6 +2,12 @@
 <% form_method = dragon.persisted? ? "put" : "post "%>
 <% submit_text = dragon.persisted? ? "Update Dragon!" : "Create Dragon!" %>
 
+<% if flash[:errors] %>
+  <% flash[:errors].each do |error|%>
+    <%= error %><br />
+  <% end %>
+<% end %>
+
 <form action="<%= action_url %>" method="POST">
   <input type="hidden" name="_method" value="<%= form_method %>">
 

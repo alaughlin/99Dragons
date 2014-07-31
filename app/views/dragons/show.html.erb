@@ -2,6 +2,7 @@
 
 <table>
   <th align="left">Name</th>
+  <th align="left">Owner</th>
   <th align="left">Age</th>
   <th align="left">Birth Date</th>
   <th align="left">Color</th>
@@ -11,6 +12,9 @@
   <tr>
     <td>
       <%= @dragon.name %>
+    </td>
+    <td>
+      <%= @dragon.owner.username %>
     </td>
     <td>
       <%= @dragon.age %>
@@ -34,13 +38,15 @@
 <table>
   <th align="left">Start Date</th>
   <th align="left">End Date</th>
+  <th align="left">Requester</th>
   <th align="left">Status</th>
   <% @requests.each do |request| %>
     <tr>
       <td><%= request.start_date %></td>
       <td><%= request.end_date %></td>
+      <td><%= request.user.username %></td>
       <td><%= request.status %></td>
-      <% if current_user.id == @dragon.user_id %>
+      <% if current_user && current_user.id == @dragon.user_id %>
         <% if ['PENDING'].include?(request.status)%>
         <td>
           <%= button_to "Approve", approve_rental_url(request), :method => :patch %>
@@ -53,10 +59,19 @@
 </table>
 <br>
 
-<a href="<%= edit_dragon_url(@dragon) %>">Edit Dragon!</a>
+<% if current_user == @dragon.owner %>
+  <a href="<%= edit_dragon_url(@dragon) %>">Edit Dragon!</a>
+  <form action="<%= dragon_url(@dragon) %>" method="post">
+    <input type="hidden"
+      name="authenticity_token"
+      value="<%= form_authenticity_token %>">
+    <input type="hidden" name="_method" value="delete">
+    <button>Delete Dragon</button>
+  </form>
+<% end %>
+<br>
 
-<a href="<%= new_rental_url(:dragon_id => @dragon.id) %>">Rent Dragon!</a>
-
-<%= button_to "Delete Dragon!", @dragon, :method => :delete %>
-
+<% unless current_user == @dragon.owner or !current_user %>
+  <a href="<%= new_rental_url(:dragon_id => @dragon.id) %>">Rent Dragon!</a>
+<% end %>
 <a href="<%= dragons_url %>">Back to All Dragons!</a>

@@ -1,5 +1,6 @@
 class RentalsController < ApplicationController
   before_action :owns_dragon, only: [:approve, :deny]
+  before_action :not_logged_in
 
   def index
     @rentals = DragonRentalRequest.all
@@ -24,9 +25,11 @@ class RentalsController < ApplicationController
   def create
     @rental = DragonRentalRequest.new(dragon_rental_params)
     @dragons = Dragon.all
+    @rented_dragon = Dragon.where(id: @rental.dragon_id).first
+    @rental.user_id = current_user.id
 
     if @rental.save(dragon_rental_params)
-      redirect_to rentals_url
+      redirect_to dragon_url(@rented_dragon)
     else
       @rental.errors.full_messages
       render :new

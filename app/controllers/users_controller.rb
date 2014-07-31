@@ -1,7 +1,8 @@
 class UsersController < ApplicationController
-  before_action :logged_in, only: [:new, :create]
+  before_action :already_logged_in, only: [:new, :create]
 
   def new
+    @user = User.new
     render :new
   end
 
@@ -12,6 +13,7 @@ class UsersController < ApplicationController
       session[:token] = @user.session_token
       redirect_to dragons_url
     else
+      flash[:errors] = @user.errors.full_messages
       render :new
     end
   end

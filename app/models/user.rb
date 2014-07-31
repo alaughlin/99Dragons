@@ -1,5 +1,6 @@
 class User < ActiveRecord::Base
   validates :username, :password_digest, :session_token, presence: true
+  validates :password, length: {minimum: 5}, allow_nil: true
 
   after_initialize :set_session_token!
 
@@ -10,8 +11,17 @@ class User < ActiveRecord::Base
     :primary_key => :id
   )
 
+  has_many(
+    :rental_requests,
+    :class_name => 'DragonRentalRequest',
+    :foreign_key => :user_id,
+    :primary_key => :id
+  )
+
+
+
   def set_session_token!
-    self.session_token || reset_session_token!
+    self.session_token ||= SecureRandom.urlsafe_base64
   end
 
   def reset_session_token!
@@ -22,6 +32,10 @@ class User < ActiveRecord::Base
   def password=(password)
     @password = password
     self.password_digest = BCrypt::Password.create(password)
+  end
+
+  def password
+    @password
   end
 
   def is_password?(password)

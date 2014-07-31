@@ -1,6 +1,7 @@
 class DragonsController < ApplicationController
-  before_action :not_logged_in
+  #before_action :not_logged_in
   before_action :owns_dragon, only: [:edit, :update]
+  before_action :not_logged_in, only: [:new, :update, :destroy, :create, :destroy]
 
   def index
     @dragons = Dragon.all
@@ -11,8 +12,9 @@ class DragonsController < ApplicationController
 
   def show
     @dragon = Dragon.find(params[:id])
-    @requests = DragonRentalRequest.where("dragon_id = ?", params[:id]).order("start_date")
-
+    @requests = DragonRentalRequest.includes(:user)
+                .where("dragon_id = ?", params[:id])
+                .order("start_date")
     render :show
   end
 
@@ -29,7 +31,7 @@ class DragonsController < ApplicationController
     if @dragon.save
       redirect_to dragon_url(@dragon)
     else
-      @dragon.errors.full_messages
+      flash.now[:errors] = @dragon.errors.full_messages
       render :new
     end
   end

@@ -2,7 +2,7 @@ class DragonRentalRequest < ActiveRecord::Base
 
   STATUSES = %w(PENDING APPROVED DENIED)
 
-  validates :dragon_id, :start_date, :end_date, presence: true
+  validates :dragon_id, :start_date, :end_date, :user_id, presence: true
   validates :status, :inclusion => {
              in: STATUSES,
              message: "%{value} is not a valid status"
@@ -14,6 +14,13 @@ class DragonRentalRequest < ActiveRecord::Base
     :dragon,
     :class_name => "Dragon",
     :foreign_key => :dragon_id,
+    :primary_key => :id
+  )
+
+  belongs_to(
+    :user,
+    :class_name => "User",
+    :foreign_key => :user_id,
     :primary_key => :id
   )
 
@@ -42,7 +49,7 @@ class DragonRentalRequest < ActiveRecord::Base
     where
       drr.dragon_id = #{self.dragon_id}
       and drr.status = 'PENDING'
-      and not ((drr.start_date > ?) or (drr.end_date < ?))
+      and not ((drr.start_date >= ?) or (drr.end_date <= ?))
     SQL
 
     overlaps.reject { |overlap| overlap.id == self.id }
@@ -53,7 +60,7 @@ class DragonRentalRequest < ActiveRecord::Base
     select *
     from dragon_rental_requests as drr
     where drr.dragon_id = #{self.dragon_id}
-    and not ((drr.start_date > ?) or (drr.end_date < ?))
+    and not ((drr.start_date >= ?) or (drr.end_date <= ?))
     SQL
 
     overlaps.reject { |overlap| overlap.id == self.id }

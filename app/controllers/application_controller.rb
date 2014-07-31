@@ -19,22 +19,16 @@ class ApplicationController < ActionController::Base
   end
 
   def signed_in?
-    p current_user
     !!current_user
   end
 
-  def logged_in
-    if session[:token]
+  def already_logged_in
+    if signed_in?
       redirect_to dragons_url
     end
   end
 
   def not_logged_in
-    redirect_to new_session_url unless session[:token]
-  end
-
-  def owns_dragon
-    @dragon = Dragon.find(params[:id])
-    redirect_to dragons_url unless @dragon.owner == current_user
+    redirect_to new_session_url unless signed_in?
   end
 end
