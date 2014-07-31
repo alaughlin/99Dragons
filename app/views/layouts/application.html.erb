@@ -4,8 +4,16 @@
   <title>Nine9Dragons</title>
 </head>
 <body>
+<% if signed_in? %>
+  <%= current_user.username %>
+  <%= button_to "Logout", session_url, method: :delete %>
+<% end %>
 
 <%= yield %>
+
+<% unless signed_in? %>
+  <%= button_to "Login", new_session_url, method: :get %>
+<% end %>
 
 </body>
 </html>

@@ -10,5 +10,5 @@ Nine9Dragons::Application.routes.draw do
     end
   end
   resources :users, only: [:new, :create]
-  resource :session
+  resource :session, only: [:new, :create, :destroy]
 end
