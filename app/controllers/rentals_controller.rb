@@ -1,4 +1,5 @@
 class RentalsController < ApplicationController
+  before_action :owns_dragon, only: [:approve, :deny]
 
   def index
     @rentals = DragonRentalRequest.all
@@ -80,6 +81,12 @@ class RentalsController < ApplicationController
     rental_attrs = [:dragon_id, :start_date, :end_date]
 
     params.require(:rental).permit(*rental_attrs)
+  end
+
+  def owns_dragon
+    @rental = DragonRentalRequest.find(params[:id])
+    @dragon = Dragon.find(@rental.dragon_id)
+    redirect_to dragons_url unless @dragon.owner == current_user
   end
 
 end

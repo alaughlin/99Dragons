@@ -3,7 +3,14 @@ class Dragon < ActiveRecord::Base
   COLORS = %w(red blue green gold black)
   SEX = %w(M F)
 
-  validates :age, :birth_date, :color, :name, :sex, :description, presence: true
+  belongs_to(
+    :owner,
+    :class_name => 'User',
+    :foreign_key => :user_id,
+    :primary_key => :id
+  )
+
+  validates :age, :birth_date, :color, :name, :sex, :description, :user_id, presence: true
   validates :age, numericality: { only_integer: true}
   validates :color, inclusion: {
              in: COLORS,

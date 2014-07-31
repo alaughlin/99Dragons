@@ -3,6 +3,13 @@ class User < ActiveRecord::Base
 
   after_initialize :set_session_token!
 
+  has_many(
+    :dragons,
+    :class_name => 'Dragon',
+    :foreign_key => :user_id,
+    :primary_key => :id
+  )
+
   def set_session_token!
     self.session_token || reset_session_token!
   end

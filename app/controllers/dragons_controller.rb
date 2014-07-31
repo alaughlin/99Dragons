@@ -1,5 +1,6 @@
 class DragonsController < ApplicationController
   before_action :not_logged_in
+  before_action :owns_dragon, only: [:edit, :update]
 
   def index
     @dragons = Dragon.all
@@ -23,6 +24,7 @@ class DragonsController < ApplicationController
 
   def create
     @dragon = Dragon.new(dragon_params)
+    @dragon.user_id = current_user.id
 
     if @dragon.save
       redirect_to dragon_url(@dragon)
@@ -65,6 +67,11 @@ class DragonsController < ApplicationController
     dragon_attrs = [:name, :age, :sex, :color, :description, :birth_date]
 
     params.require(:dragon).permit(*dragon_attrs)
+  end
+
+  def owns_dragon
+    @dragon = Dragon.find(params[:id])
+    redirect_to dragons_url unless @dragon.owner == current_user
   end
 
 end

@@ -40,12 +40,14 @@
       <td><%= request.start_date %></td>
       <td><%= request.end_date %></td>
       <td><%= request.status %></td>
-      <% if ['PENDING'].include?(request.status)%>
-      <td>
-        <%= button_to "Approve", approve_rental_url(request), :method => :patch %>
-        <%= button_to "Deny", deny_rental_url(request), :method => :patch %>
-      </td>
-      <% end%>
+      <% if current_user.id == @dragon.user_id %>
+        <% if ['PENDING'].include?(request.status)%>
+        <td>
+          <%= button_to "Approve", approve_rental_url(request), :method => :patch %>
+          <%= button_to "Deny", deny_rental_url(request), :method => :patch %>
+        </td>
+        <% end%>
+      <% end %>
     </tr>
   <% end %>
 </table>
