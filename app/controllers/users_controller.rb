@@ -10,7 +10,6 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
 
     if @user.save
-      session[:token] = @user.session_token
       redirect_to dragons_url
     else
       flash[:errors] = @user.errors.full_messages

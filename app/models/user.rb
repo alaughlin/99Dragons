@@ -1,8 +1,6 @@
 class User < ActiveRecord::Base
-  validates :username, :password_digest, :session_token, presence: true
+  validates :username, :password_digest, presence: true
   validates :password, length: {minimum: 5}, allow_nil: true
-
-  after_initialize :set_session_token!
 
   has_many(
     :dragons,
@@ -18,16 +16,10 @@ class User < ActiveRecord::Base
     :primary_key => :id
   )
 
-
-
-  def set_session_token!
-    self.session_token ||= SecureRandom.urlsafe_base64
-  end
-
-  def reset_session_token!
-    self.session_token = SecureRandom.urlsafe_base64
-    self.save!
-  end
+  # def reset_session_token!
+#     self.session_token = SecureRandom.urlsafe_base64
+#     self.save!
+#   end
 
   def password=(password)
     @password = password
