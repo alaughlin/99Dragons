@@ -22,4 +22,14 @@ class ApplicationController < ActionController::Base
     p current_user
     !!current_user
   end
+
+  def logged_in
+    if session[:token]
+      redirect_to dragons_url
+    end
+  end
+
+  def not_logged_in
+    redirect_to new_session_url unless session[:token]
+  end
 end

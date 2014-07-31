@@ -1,4 +1,5 @@
 class SessionsController < ApplicationController
+  before_action :logged_in, only: [:new, :create]
 
   def new
     render :new
@@ -21,5 +22,4 @@ class SessionsController < ApplicationController
     user.reset_session_token!
     redirect_to new_session_url
   end
-
 end

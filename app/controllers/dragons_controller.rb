@@ -1,4 +1,5 @@
 class DragonsController < ApplicationController
+  before_action :not_logged_in
 
   def index
     @dragons = Dragon.all
@@ -23,7 +24,7 @@ class DragonsController < ApplicationController
   def create
     @dragon = Dragon.new(dragon_params)
 
-    if @dragon.save(dragon_params)
+    if @dragon.save
       redirect_to dragon_url(@dragon)
     else
       @dragon.errors.full_messages
