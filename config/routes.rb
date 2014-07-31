@@ -9,4 +9,6 @@ Nine9Dragons::Application.routes.draw do
       patch 'deny'
     end
   end
+  resources :users, only: [:new, :create]
+  resource :session
 end
